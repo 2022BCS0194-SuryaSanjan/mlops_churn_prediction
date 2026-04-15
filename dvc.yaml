@@ -1,0 +1,32 @@
+stages:
+  prepare:
+    cmd: python src/features.py
+    deps:
+      - data/raw/customers.csv
+      - src/features.py
+    params:
+      - params.yaml:
+          - training.test_size
+    outs:
+      - data/splits/X_train.csv
+      - data/splits/X_test.csv
+      - data/splits/y_train.csv
+      - data/splits/y_test.csv
+      - data/splits/preprocessor.pkl
+
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - data/splits/X_train.csv
+      - data/splits/y_train.csv
+      - data/splits/preprocessor.pkl
+      - src/train.py
+    params:
+      - params.yaml:
+          - model
+    outs:
+      - models/churn_model.pkl
+    metrics:
+      - models/metrics.json:
+          cache: false

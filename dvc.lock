@@ -1,0 +1,73 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/features.py
+    deps:
+    - path: data/raw/customers.csv
+      hash: md5
+      md5: f16ae1c70ea73fefdfe6f002bffd22d7
+      size: 121462
+    - path: src/features.py
+      hash: md5
+      md5: 2f6a832ef857bcec8ea30b89e031a842
+      size: 3412
+    params:
+      params.yaml:
+        training.test_size: 0.2
+    outs:
+    - path: data/splits/X_test.csv
+      hash: md5
+      md5: bcdb120a0d5031cf91b6996ceed38575
+      size: 30502
+    - path: data/splits/X_train.csv
+      hash: md5
+      md5: fa3432d1936bfec3140e177b52d253ba
+      size: 121682
+    - path: data/splits/preprocessor.pkl
+      hash: md5
+      md5: 39118db8f4deefc8dea932caf4e6fe50
+      size: 3451
+    - path: data/splits/y_test.csv
+      hash: md5
+      md5: dab6ebc2abf9a5126b9e7a0ae176e0ef
+      size: 1207
+    - path: data/splits/y_train.csv
+      hash: md5
+      md5: d34f319fe55aaf96539ada7b513b1791
+      size: 4807
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/splits/X_train.csv
+      hash: md5
+      md5: fa3432d1936bfec3140e177b52d253ba
+      size: 121682
+    - path: data/splits/preprocessor.pkl
+      hash: md5
+      md5: 39118db8f4deefc8dea932caf4e6fe50
+      size: 3451
+    - path: data/splits/y_train.csv
+      hash: md5
+      md5: d34f319fe55aaf96539ada7b513b1791
+      size: 4807
+    - path: src/train.py
+      hash: md5
+      md5: dbce54e8cd6564bab73f55c0666bf87a
+      size: 3821
+    params:
+      params.yaml:
+        model:
+          n_estimators: 100
+          max_depth: 6
+          min_samples_split: 5
+          min_samples_leaf: 2
+          random_state: 42
+    outs:
+    - path: models/churn_model.pkl
+      hash: md5
+      md5: 9d82d67018be5e5a660a14d4f5d9c70a
+      size: 617202
+    - path: models/metrics.json
+      hash: md5
+      md5: 9e74827e4bfd58afd361053eb971b77f
+      size: 141
