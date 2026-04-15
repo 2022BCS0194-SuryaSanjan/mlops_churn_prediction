@@ -1,10 +1,13 @@
 import os
 import sys
+from unittest.mock import MagicMock
+import pytest
 from fastapi.testclient import TestClient
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from api.main import app
+import api.main
 
 
 payload = {
@@ -25,6 +28,15 @@ payload = {
 
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def mock_model(monkeypatch):
+    """Mock the model to avoid requiring a trained model file"""
+    mock = MagicMock()
+    mock.predict.return_value = [1]
+    mock.predict_proba.return_value = [[0.3, 0.7]]
+    monkeypatch.setattr(api.main, 'model', mock)
 
 
 def test_predict_endpoint():
