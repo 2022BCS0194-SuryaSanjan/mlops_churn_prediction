@@ -1,4 +1,5 @@
-import requests, json
+from fastapi.testclient import TestClient
+from api.main import app
 
 
 payload = {
@@ -18,5 +19,14 @@ payload = {
 }
 
 
-response = requests.post('http://127.0.0.1:8000/predict', json=payload)
-print(json.dumps(response.json(), indent=2))
+client = TestClient(app)
+
+
+def test_predict_endpoint():
+    response = client.post('/predict', json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data['customer_id'] == payload['customer_id']
+    assert 'churn_prediction' in data
+    assert 'churn_probability' in data
+    assert 'risk_level' in data
