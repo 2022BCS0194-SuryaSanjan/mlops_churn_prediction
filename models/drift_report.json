@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-15T12:09:43.949486",
+  "reference_rows": 2000,
+  "current_rows": 2000,
+  "feature_drift": {
+    "monthly_charges": {
+      "psi": 1.5703,
+      "status": "DRIFT"
+    },
+    "tickets_7d": {
+      "psi": 0.0,
+      "status": "OK"
+    },
+    "tickets_30d": {
+      "psi": 2.4043,
+      "status": "DRIFT"
+    },
+    "tickets_90d": {
+      "psi": 0.0,
+      "status": "OK"
+    },
+    "avg_sentiment": {
+      "psi": 0.0,
+      "status": "OK"
+    },
+    "tenure_months": {
+      "psi": 0.0,
+      "status": "OK"
+    }
+  },
+  "overall_status": "DRIFT_DETECTED"
+}
